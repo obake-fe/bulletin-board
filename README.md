@@ -9,11 +9,16 @@
 
 ## Start
 ```shell
+$ cp src/.env.example src/.env
 $ docker-compose up -d
+$ docker-compose exec web bash
+$ php artisan key:generate
+$ php artisan optimize
+$ php artisan migrate
 ```
 
 ## URL
-localhost:8080
+- http://localhost:8080
 
 ## Reference
 - [【超入門】20分でLaravel開発環境を爆速構築するDockerハンズオン | Qiita](https://qiita.com/ucan-lab/items/56c9dc3cf2e6762672f4)
