@@ -17,6 +17,10 @@ class ThreadController extends Controller
 {
   /**
    * メインページ表示用
+   *
+   * threads tableに保存しているデータを取得し、
+   * スレッドとして表示する
+   *
    * @return Application|Factory|View
    */
     public function index(): View|Factory|Application
@@ -26,9 +30,12 @@ class ThreadController extends Controller
     }
 
   /**
-   * 投稿のPOST時に呼ばれる
-   * 投稿を保存し再度ページを開く
+   * POSTボタン押下時の処理
+   *
+   * 投稿を保存し、再度メインページを開く
+   *
    * @param Request $request
+   *
    * @return Application|RedirectResponse|Redirector
    */
     public function create(Request $request): Redirector|RedirectResponse|Application

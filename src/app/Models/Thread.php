@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * threadsテーブルに接続する
+ * threads tableに接続する
  */
 class Thread extends Model
 {
