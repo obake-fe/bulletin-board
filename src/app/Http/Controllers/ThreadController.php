@@ -25,7 +25,7 @@ class ThreadController extends Controller
    */
     public function index(): View|Factory|Application
     {
-        $items = Thread::all();
+        $items = Thread::paginate(3);
         return view('thread.index', ['items' => $items]);
     }
 
