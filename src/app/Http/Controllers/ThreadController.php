@@ -18,14 +18,14 @@ class ThreadController extends Controller
   /**
    * メインページ表示用
    *
-   * threads tableに保存しているデータを取得し、
-   * スレッドとして表示する
+   * threads tableに保存しているデータを取得し、スレッドとして表示する
+   * ページングで10件ずつ表示
    *
    * @return Application|Factory|View
    */
     public function index(): View|Factory|Application
     {
-        $items = Thread::paginate(3);
+        $items = Thread::paginate(10);
         return view('thread.index', ['items' => $items]);
     }
 
