@@ -38,7 +38,7 @@ jobs:
 
       - name: Laravel Setting
         run: |
-          docker-compose -f docker-compose-test.yml exec -T web cp .env.example .env
+          docker-compose -f docker-compose-test.yml exec -T web cp .env.testing .env
           docker-compose -f docker-compose-test.yml exec -T web php artisan key:generate
 
       - name: Laravel Migrate Testing
