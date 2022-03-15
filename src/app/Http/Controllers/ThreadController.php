@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ThreadRequest;
 use App\Models\Thread;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -34,11 +35,11 @@ class ThreadController extends Controller
    *
    * 投稿を保存し、再度メインページを開く
    *
-   * @param Request $request
+   * @param ThreadRequest $request
    *
    * @return Application|RedirectResponse|Redirector
    */
-    public function create(Request $request): Redirector|RedirectResponse|Application
+    public function create(ThreadRequest $request): Redirector|RedirectResponse|Application
     {
         $thread = new Thread();
         $form = $request->all();
