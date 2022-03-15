@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ThreadRequest;
 use App\Models\Thread;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -10,6 +9,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 /**
  * 掲示板
@@ -30,21 +31,34 @@ class ThreadController extends Controller
         return view('thread.index', ['items' => $items]);
     }
 
-  /**
-   * POSTボタン押下時の処理
-   *
-   * 投稿を保存し、再度メインページを開く
-   *
-   * @param ThreadRequest $request
-   *
-   * @return Application|RedirectResponse|Redirector
-   */
-    public function create(ThreadRequest $request): Redirector|RedirectResponse|Application
+    /**
+     * POSTボタン押下時の処理
+     *
+     * バリデーションを実施して投稿を保存し、再度メインページを開く
+     *
+     * @param Request $request
+     *
+     * @return Application|RedirectResponse|Redirector
+     * @throws ValidationException
+     */
+    public function create(Request $request): Redirector|RedirectResponse|Application
     {
+        $validator = Validator::make($request->all(), [
+            'author' => ['required', 'max:20'],
+            'message' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $validated = $validator->validated();
+
         $thread = new Thread();
-        $form = $request->all();
-        unset($form['_token']);
-        $thread->fill($form)->save();
+        unset($validated['_token']);
+        $thread->fill($validated)->save();
         return redirect('/');
     }
 }
