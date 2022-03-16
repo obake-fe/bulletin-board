@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Thread;
-use App\Rules\MaxByteValidator;
+use App\Rules\MaxByteRule;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -46,7 +46,7 @@ class ThreadController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'author' => ['required', 'max:20'],
-            'message' => ['required', new MaxByteValidator(200)]
+            'message' => ['required', new MaxByteRule(200)]
         ]);
 
         if ($validator->fails()) {

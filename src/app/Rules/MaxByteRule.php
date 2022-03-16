@@ -5,11 +5,11 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * MaxByteValidator
+ * MaxByteRule
  *
  * バイト数を引数に取り、指定のバイト以下のバリデートを行う。
  */
-class MaxByteValidator implements Rule
+class MaxByteRule implements Rule
 {
     protected int $maxBytes;
 

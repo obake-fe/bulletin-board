@@ -11,30 +11,44 @@
 */
 class ThreadTest extends TestCase
 {
-    // tableの初期化
+    // initialize table
     use RefreshDatabase;
 
     /**
-     * Controller test
+     * ThreadControllerTest about index function
      *
      * @return void
      */
-    public function testThreadController(): void
+    public function testThreadControllerIndex(): void
     {
         Thread::factory()->count(20)->create();
 
-        // indexページへのアクセス
+        // access to index
         $response = $this->get('/');
         $response->assertOk();
 
-        // ページネーション確認（10件ずつ取得）
+        // check pagination (get items by 10)
         $data = $response->getOriginalContent()->getData();
         $this->assertCount(10, $data['items']);
+    }
 
-        // post時の処理
+    /**
+     * ThreadControllerTest about create function
+     *
+     * @return void
+     */
+    public function testThreadControllerCreate(): void
+    {
+        // post success
         $this->post('/', [
         'author' => 'test',
         'message' => 'post test'
         ])->assertRedirect('/');
+
+        // post fail (validation error)
+        $this->post('/', [
+            'author' => '',
+            'message' => 'post test'
+        ])->assertStatus(302);
     }
 }
