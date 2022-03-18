@@ -7,19 +7,19 @@
   use Tests\TestCase;
 
 /**
-* ThreadTest
+* ThreadControllerTest
 */
-class ThreadTest extends TestCase
+class ThreadControllerTest extends TestCase
 {
     // initialize table
     use RefreshDatabase;
 
     /**
-     * ThreadControllerTest about index function
+     * test about index function
      *
      * @return void
      */
-    public function testThreadControllerIndex(): void
+    public function testIndex(): void
     {
         Thread::factory()->count(20)->create();
 
@@ -33,11 +33,11 @@ class ThreadTest extends TestCase
     }
 
     /**
-     * ThreadControllerTest about create function
+     * test about create function
      *
      * @return void
      */
-    public function testThreadControllerCreate(): void
+    public function testCreate(): void
     {
         // post success
         $this->post('/', [

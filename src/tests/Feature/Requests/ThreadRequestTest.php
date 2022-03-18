@@ -12,14 +12,14 @@ use Tests\TestCase;
 class ThreadRequestTest extends TestCase
 {
     /**
-     * カスタムリクエストのバリデーションテスト
+     * Validation test
      *
      * @param array   $keys   項目名の配列
      * @param array   $values 値の配列
      * @param boolean $expect 期待値(true:バリデーションOK、false:バリデーションNG)
-     * @dataProvider dataProviderThread
+     * @dataProvider threadDataProvider
      */
-    public function testThread(array $keys, array $values, bool $expect)
+    public function testThreadValidation(array $keys, array $values, bool $expect): void
     {
         //入力項目（$item）とその値($data)
         $dataList = array_combine($keys, $values);
@@ -38,7 +38,7 @@ class ThreadRequestTest extends TestCase
     /**
      * dataProvider
      */
-    public function dataProviderThread()
+    public function threadDataProvider()
     {
         return [
             '正常系' => [
