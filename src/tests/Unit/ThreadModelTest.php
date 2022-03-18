@@ -7,19 +7,19 @@
     use Tests\TestCase;
 
 /**
- * ThreadTest
+ * ThreadModelTest
  */
-class ThreadTest extends TestCase
+class ThreadModelTest extends TestCase
 {
     // tableの初期化
     use RefreshDatabase;
 
     /**
-     * Model test
+     * post test
      *
      * @return void
      */
-    public function testThreadModel(): void
+    public function testPost(): void
     {
         // ダミーデータを用意
         $data = [
