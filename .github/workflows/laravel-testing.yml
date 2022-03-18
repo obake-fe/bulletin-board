@@ -5,7 +5,7 @@ on:
 
 jobs:
   laravel-testing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -14,44 +14,44 @@ jobs:
         run: docker version
 
       - name: Build Docker Images
-        run: docker-compose build
+        run: docker-compose -f docker-compose-test.yml build
 
       - name: Create & Start Docker Containers
-        run: docker-compose up -d
+        run: docker-compose -f docker-compose-test.yml up -d
 
       - name: OS Version
         run: |
-          docker-compose exec -T web cat /etc/os-release
-          docker-compose exec -T web cat /etc/debian_version
+          docker-compose -f docker-compose-test.yml exec -T web cat /etc/os-release
+          docker-compose -f docker-compose-test.yml exec -T web cat /etc/debian_version
 
       - name: PHP Version
-        run: docker-compose exec -T web php --version
+        run: docker-compose -f docker-compose-test.yml exec -T web php --version
 
       - name: Composer Version
-        run: docker-compose exec -T web composer --version
+        run: docker-compose -f docker-compose-test.yml exec -T web composer --version
 
       - name: Install Dependencies
-        run: docker-compose exec -T web composer install
+        run: docker-compose -f docker-compose-test.yml exec -T web composer install
 
       - name: Laravel Version
-        run: docker-compose exec -T web php artisan --version
+        run: docker-compose -f docker-compose-test.yml exec -T web php artisan --version
 
       - name: Laravel Setting
         run: |
-          docker-compose exec -T web cp .env.example .env
-          docker-compose exec -T web php artisan key:generate
+          docker-compose -f docker-compose-test.yml exec -T web cp .env.testing .env
+          docker-compose -f docker-compose-test.yml exec -T web php artisan key:generate
 
       - name: Laravel Migrate Testing
-        run: docker-compose exec -T web php artisan migrate
+        run: docker-compose -f docker-compose-test.yml exec -T web php artisan migrate
 
       - name: Laravel Rollback Testing
-        run: docker-compose exec -T web php artisan migrate:refresh
+        run: docker-compose -f docker-compose-test.yml exec -T web php artisan migrate:refresh
 
       - name: Laravel Seeding Testing
-        run: docker-compose exec -T web php artisan db:seed
+        run: docker-compose -f docker-compose-test.yml exec -T web php artisan db:seed
 
       - name: Laravel PHPUnit Testing
-        run: docker-compose exec -T web php artisan test
+        run: docker-compose -f docker-compose-test.yml exec -T web php artisan test
 
       - name: CodeSniffer Testing
-        run: docker-compose exec -T web composer sniffer
+        run: docker-compose -f docker-compose-test.yml exec -T web composer sniffer

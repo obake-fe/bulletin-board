@@ -18,6 +18,11 @@ $ php artisan optimize
 $ php artisan migrate
 ```
 
+## Seeding
+```shell
+$ php artisan db:seed  // add 50 dummy data
+```
+
 ## URL
 - http://localhost:8080
 

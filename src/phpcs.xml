@@ -67,7 +67,5 @@
   <exclude-pattern>app/Providers/RouteServiceProvider.php</exclude-pattern>
   <exclude-pattern>database/seeders/DatabaseSeeder.php</exclude-pattern>
   <exclude-pattern>tests/CreatesApplication.php</exclude-pattern>
-  <exclude-pattern>tests/Feature/ExampleTest.php</exclude-pattern>
   <exclude-pattern>tests/TestCase.php</exclude-pattern>
-  <exclude-pattern>tests/Unit/ExampleTest.php</exclude-pattern>
 </ruleset>
