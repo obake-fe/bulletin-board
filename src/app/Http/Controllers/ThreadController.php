@@ -15,14 +15,14 @@ use Illuminate\Routing\Redirector;
  */
 class ThreadController extends Controller
 {
-  /**
-   * メインページ表示用
-   *
-   * threads tableに保存しているデータを取得し、スレッドとして表示する
-   * ページングで10件ずつ表示
-   *
-   * @return Application|Factory|View
-   */
+    /**
+     * メインページ表示用
+     *
+     * threads tableに保存しているデータを取得し、スレッドとして表示する
+     * ページングで10件ずつ表示
+     *
+     * @return View|Factory|Application
+     */
     public function index(): View|Factory|Application
     {
         $items = Thread::paginate(10);
@@ -35,8 +35,7 @@ class ThreadController extends Controller
      * 投稿を保存し、再度メインページを開く
      *
      * @param ThreadRequest $request
-     *
-     * @return Application|RedirectResponse|Redirector
+     * @return Redirector|RedirectResponse|Application
      */
     public function create(ThreadRequest $request): Redirector|RedirectResponse|Application
     {

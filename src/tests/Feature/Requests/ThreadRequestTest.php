@@ -16,22 +16,18 @@ class ThreadRequestTest extends TestCase
      *
      * @param array   $keys   項目名の配列
      * @param array   $values 値の配列
-     * @param boolean $expect 期待値(true:バリデーションOK、false:バリデーションNG)
+     * @param boolean $expect 期待値
      * @dataProvider threadDataProvider
      */
     public function testThreadValidation(array $keys, array $values, bool $expect): void
     {
-        //入力項目（$item）とその値($data)
         $dataList = array_combine($keys, $values);
-
         $request = new ThreadRequest();
-        //フォームリクエストで定義したルールを取得
         $rules = $request->rules();
-        //Validatorファサードでバリデーターのインスタンスを取得、その際に入力情報とバリデーションルールを引数で渡す
+
+        //Validatorファサードでバリデーターのインスタンスを取得
         $validator = Validator::make($dataList, $rules);
-        //入力情報がバリデーショルールを満たしている場合はtrue、満たしていな場合はfalseが返る
         $result = $validator->passes();
-        //期待値($expect)と結果($result)を比較
         $this->assertEquals($expect, $result);
     }
 
