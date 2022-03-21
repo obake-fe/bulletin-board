@@ -13,7 +13,6 @@ $ cp src/.env.example src/.env
 $ docker-compose up -d
 $ docker-compose exec web bash
 $ composer install
-$ php artisan key:generate
 $ php artisan optimize
 $ php artisan migrate
 ```
