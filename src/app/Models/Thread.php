@@ -16,4 +16,28 @@ class Thread extends Model
 
     public const CREATED_AT = 'post_date';
     public const UPDATED_AT = null;
+
+    /**
+     * partial match search about name column
+     *
+     * @param $query
+     * @param $str
+     * @return mixed
+     */
+    public function scopeAuthorPartialMatch($query, $str): mixed
+    {
+        return $query->where('author', 'like', "%$str%");
+    }
+
+    /**
+     * partial match search about message column
+     *
+     * @param $query
+     * @param $str
+     * @return mixed
+     */
+    public function scopeMessagePartialMatch($query, $str): mixed
+    {
+        return $query->where('message', 'like', "%$str%");
+    }
 }

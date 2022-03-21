@@ -31,6 +31,13 @@
         {{ $items->links('vendor.pagination.tailwind') }}
     </section>
     <section class="mt-2 p-4 border-2 rounded-md">
+        <div class="">
+            <form action="/" method="get">
+                <label for="keyword">search</label>
+                <input type="text" name="keyword" id="keyword" value="{{ $keyword }}" class="border-2">
+                <button type="submit" name="operation" value="get" class="mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">search</button>
+            </form>
+        </div>
         @foreach($items as $item)
             <div class="first:mt-0 mt-4 p-4 border-2 border-gray-400">
                 <p>{{$item->post_date}}</p>

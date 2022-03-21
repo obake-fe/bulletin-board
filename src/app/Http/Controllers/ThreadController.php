@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 
 /**
@@ -19,14 +20,21 @@ class ThreadController extends Controller
      * メインページ表示用
      *
      * threads tableに保存しているデータを取得し、スレッドとして表示する
-     * ページングで10件ずつ表示
+     * 検索単語がある場合は単語と部分一致するデータを取得する
+     * ページングで10件ずつ表示する
      *
+     * @param Request $request
      * @return View|Factory|Application
      */
-    public function index(): View|Factory|Application
+    public function index(Request $request): View|Factory|Application
     {
-        $items = Thread::paginate(10);
-        return view('thread.index', ['items' => $items]);
+        $keyword = $request->input('keyword');
+        if (!empty($keyword)) {
+            $items = Thread::where('author', 'like', "%$keyword%")->paginate(10);
+        } else {
+            $items = Thread::paginate(10);
+        }
+        return view('thread.index', ['items' => $items, 'keyword' => $keyword]);
     }
 
     /**
@@ -37,7 +45,7 @@ class ThreadController extends Controller
      * @param ThreadRequest $request
      * @return Redirector|RedirectResponse|Application
      */
-    public function create(ThreadRequest $request): Redirector|RedirectResponse|Application
+    public function store(ThreadRequest $request): Redirector|RedirectResponse|Application
     {
         $thread = new Thread();
         $form = $request->all();
