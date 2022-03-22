@@ -29,12 +29,10 @@ class ThreadController extends Controller
     public function index(Request $request): View|Factory|Application
     {
         $keyword = $request->input('keyword');
-        if (!empty($keyword)) {
-            $items = Thread::where('author', 'like', "%$keyword%")
-                    ->orWhere('message', 'like', "%$keyword%")->paginate(10);
-        } else {
-            $items = Thread::paginate(10);
-        }
+        $items = Thread::authorPartialMatch($keyword)
+            ->orWhere->messagePartialMatch($keyword)
+            ->paginate(10)
+            ->appends($request->all());
         return view('thread.index', ['items' => $items, 'keyword' => $keyword]);
     }
 

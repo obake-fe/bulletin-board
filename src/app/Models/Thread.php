@@ -21,23 +21,31 @@ class Thread extends Model
      * partial match search about name column
      *
      * @param $query
-     * @param $str
+     * @param string|null $keyword
      * @return mixed
      */
-    public function scopeAuthorPartialMatch($query, $str): mixed
+    public function scopeAuthorPartialMatch($query, string $keyword = null): mixed
     {
-        return $query->where('author', 'like', "%$str%");
+        if (!$keyword) {
+            return $query;
+        }
+
+        return $query->where('author', 'like', "%$keyword%");
     }
 
     /**
      * partial match search about message column
      *
      * @param $query
-     * @param $str
+     * @param string|null $keyword
      * @return mixed
      */
-    public function scopeMessagePartialMatch($query, $str): mixed
+    public function scopeMessagePartialMatch($query, string $keyword = null): mixed
     {
-        return $query->where('message', 'like', "%$str%");
+        if (!$keyword) {
+            return $query;
+        }
+
+        return $query->where('message', 'like', "%$keyword%");
     }
 }
