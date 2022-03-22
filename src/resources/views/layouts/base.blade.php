@@ -8,7 +8,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <title>@yield('title')</title>
 </head>
-<body class="mt-8 mx-[auto] w-[1024px]">
+<body class="my-8 mx-[auto] w-[1024px]">
     <h1 class="text-2xl font-bold">@yield('title')</h1>
     @yield('content')
 </body>

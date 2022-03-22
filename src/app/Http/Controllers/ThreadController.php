@@ -30,7 +30,8 @@ class ThreadController extends Controller
     {
         $keyword = $request->input('keyword');
         if (!empty($keyword)) {
-            $items = Thread::where('author', 'like', "%$keyword%")->paginate(10);
+            $items = Thread::where('author', 'like', "%$keyword%")
+                    ->orWhere('message', 'like', "%$keyword%")->paginate(10);
         } else {
             $items = Thread::paginate(10);
         }
