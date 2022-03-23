@@ -32,4 +32,50 @@ class ThreadModelTest extends TestCase
         $thread->fill($data)->save();
         $this->assertDatabaseHas('threads', $data);
     }
+
+    /**
+     * authorPartialMatchTest
+     *
+     * @return void
+     */
+    public function testScopeAuthorPartialMatch(): void
+    {
+        // 初期状態
+        Thread::factory()->count(10)->create();
+
+        $query = Thread::authorPartialMatch()->get();
+        $this->assertCount(10, $query);
+
+        // 検索ワードがある場合
+        Thread::factory()->create([
+            'author' => 'test',
+            'message' => 'hoge'
+        ]);
+
+        $queryWithKeyword = Thread::authorPartialMatch('test')->get();
+        $this->assertEquals('test', $queryWithKeyword[0]['author']);
+    }
+
+    /**
+     * messagePartialMatch
+     *
+     * @return void
+     */
+    public function testScopeMessagePartialMatch(): void
+    {
+        // 初期状態
+        Thread::factory()->count(10)->create();
+
+        $query = Thread::messagePartialMatch()->get();
+        $this->assertCount(10, $query);
+
+        // 検索ワードがある場合
+        Thread::factory()->create([
+            'author' => 'hoge',
+            'message' => 'test'
+        ]);
+
+        $queryWithKeyword = Thread::messagePartialMatch('test')->get();
+        $this->assertEquals('test', $queryWithKeyword[0]['message']);
+    }
 }
