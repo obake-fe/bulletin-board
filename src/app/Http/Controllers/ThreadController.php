@@ -31,6 +31,7 @@ class ThreadController extends Controller
         $keyword = $request->input('keyword');
         $items = Thread::authorPartialMatch($keyword)
             ->orWhere->messagePartialMatch($keyword)
+            ->orderBy('entry_id', 'desc')
             ->paginate(10)
             ->appends($request->all());
         return view('thread.index', ['items' => $items, 'keyword' => $keyword]);

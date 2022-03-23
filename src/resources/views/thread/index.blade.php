@@ -45,11 +45,39 @@
         <div class="mt-2">
             @foreach($items as $item)
                 <div class="first:mt-0 mt-4 p-4 border-2 border-gray-400">
-                    <p>{{$item->post_date}}</p>
-                    <p>{{$item->author}}</p>
-                    <p>{{$item->message}}</p>
+                    <div class="mb-2">
+                        <p>{{$item->post_date}}</p>
+                        <p>{{$item->author}}</p>
+                        <p>{{$item->message}}</p>
+                    </div>
+                    <hr>
+                    <form action="/reply" method="post">
+                        @csrf
+                        <div>
+                            <div class="flex items-center mt-2">
+                                <label for="author" class="w-12">name</label>
+                                <input type="text" name="author" id="author" value="{{old('author')}}" class="border-2">
+                            </div>
+                            @error('author')
+                            <p class="text-red-500">{{$message}}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <div class="flex items-center mt-2">
+                                <label for="message" class="w-12">text</label>
+                                <textarea name="message" id="message" class="border-2 w-full">{{old('message')}}</textarea>
+                            </div>
+                            @error('message')
+                            <p class="text-red-500">{{$message}}</p>
+                            @enderror
+                        </div>
+                        <button type="submit" name="operation" value="post" class="mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Reply</button>
+                    </form>
                 </div>
             @endforeach
         </div>
+    </section>
+    <section class="mt-2">
+        {{ $items->links('vendor.pagination.tailwind') }}
     </section>
 @endsection
