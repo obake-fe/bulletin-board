@@ -50,6 +50,16 @@
                         <p>{{$item->author}}</p>
                         <p>{{$item->message}}</p>
                     </div>
+                    @if(!is_null($item->reply))
+                        @foreach($item->reply as $obj)
+                            <hr>
+                            <div class="my-2">
+                                <p>{{$obj->post_date}}</p>
+                                <p>{{$obj->author}}</p>
+                                <p>{{$obj->message}}</p>
+                            </div>
+                        @endforeach
+                    @endif
                     <hr>
                     <form action="/reply" method="post">
                         @csrf
