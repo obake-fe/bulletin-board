@@ -1,5 +1,6 @@
 <?php
-
+    
+    use App\Http\Controllers\ReplyController;
     use App\Http\Controllers\ThreadController;
     use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,5 @@
 
 Route::get('/', [ThreadController::class, 'index']);
 Route::post('/', [ThreadController::class, 'store']);
+
+Route::post('/reply', [ReplyController::class, 'store']);

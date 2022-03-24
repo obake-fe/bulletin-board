@@ -71,6 +71,7 @@
                             <p class="text-red-500">{{$message}}</p>
                             @enderror
                         </div>
+                        <input type="hidden" name="thread_id" value="{{$item->entry_id}}">
                         <button type="submit" name="operation" value="post" class="mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Reply</button>
                     </form>
                 </div>
