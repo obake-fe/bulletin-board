@@ -7,34 +7,48 @@
   use Tests\TestCase;
 
 /**
-* ThreadTest
+* ThreadControllerTest
 */
-class ThreadTest extends TestCase
+class ThreadControllerTest extends TestCase
 {
-    // tableの初期化
+    // initialize table
     use RefreshDatabase;
 
     /**
-     * Controller test
+     * test about index function
      *
      * @return void
      */
-    public function testThreadController(): void
+    public function testIndex(): void
     {
         Thread::factory()->count(20)->create();
 
-        // indexページへのアクセス
+        // access to index
         $response = $this->get('/');
         $response->assertOk();
 
-        // ページネーション確認（10件ずつ取得）
+        // check pagination (get items by 10)
         $data = $response->getOriginalContent()->getData();
         $this->assertCount(10, $data['items']);
+    }
 
-        // post時の処理
+    /**
+     * test about create function
+     *
+     * @return void
+     */
+    public function testCreate(): void
+    {
+        // post success
         $this->post('/', [
         'author' => 'test',
         'message' => 'post test'
         ])->assertRedirect('/');
+
+        // post fail (validation error)
+        $this->post('/', [
+            'author' => '',
+            'message' => 'post test'
+        ])->assertStatus(302);
     }
 }
