@@ -29,7 +29,8 @@ class ThreadController extends Controller
     public function index(Request $request): View|Factory|Application
     {
         $keyword = $request->input('keyword');
-        $items = Thread::authorPartialMatch($keyword)
+        $items = Thread::with('replies')
+            ->authorPartialMatch($keyword)
             ->orWhere->messagePartialMatch($keyword)
             ->orderBy('entry_id', 'desc')
             ->paginate(10)

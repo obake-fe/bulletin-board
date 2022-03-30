@@ -24,7 +24,7 @@ class Thread extends Model
      *
      * @return HasMany
      */
-    public function reply(): HasMany
+    public function replies(): HasMany
     {
         return $this->hasMany(Reply::class, 'thread_id', 'entry_id');
     }
