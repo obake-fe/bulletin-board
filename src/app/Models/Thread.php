@@ -20,6 +20,13 @@ class Thread extends Model
     public const UPDATED_AT = null;
 
     /**
+     * setting primary key
+     *
+     * @var string
+     */
+    protected $primaryKey = 'entry_id';
+
+    /**
      * relation
      *
      * @return HasMany

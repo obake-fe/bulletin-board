@@ -2,7 +2,9 @@
 
     namespace Tests\Unit;
 
+    use App\Models\Reply;
     use App\Models\Thread;
+    use Illuminate\Database\Eloquent\Collection;
     use Illuminate\Foundation\Testing\RefreshDatabase;
     use Tests\TestCase;
 
@@ -31,6 +33,27 @@ class ThreadModelTest extends TestCase
         $thread = new Thread();
         $thread->fill($data)->save();
         $this->assertDatabaseHas('threads', $data);
+    }
+
+    /**
+     * relation test
+     *
+     * @see https://github.com/bitfumes/laravel-test-driven-api/blob/main/tests/Unit/TaskTest.php
+     * @return void
+     */
+    public function testRelation(): void
+    {
+        $thread = Thread::factory()->create();
+        $reply = Reply::factory()->create(['thread_id' => $thread->entry_id]);
+
+        // Method 1: A reply exists in a thread's reply collections.
+        $this->assertTrue($thread->replies->contains($reply));
+
+        // Method 2: Replies are related to thread and is a collection instance.
+        $this->assertInstanceOf(Collection::class, $thread->replies);
+
+        // Method 3: Replies's first item is related to thread and is a Reply instance.
+        $this->assertInstanceOf(Reply::class, $thread->replies->first());
     }
 
     /**
