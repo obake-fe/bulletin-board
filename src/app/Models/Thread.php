@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,11 +21,11 @@ class Thread extends Model
     /**
      * partial match search about name column
      *
-     * @param $query
+     * @param Builder     $query
      * @param string|null $keyword
-     * @return mixed
+     * @return Builder
      */
-    public function scopeAuthorPartialMatch($query, string $keyword = null): mixed
+    public function scopeAuthorPartialMatch(Builder $query, string $keyword = null): Builder
     {
         if (!$keyword) {
             return $query;
@@ -36,11 +37,11 @@ class Thread extends Model
     /**
      * partial match search about message column
      *
-     * @param $query
+     * @param Builder     $query
      * @param string|null $keyword
-     * @return mixed
+     * @return Builder
      */
-    public function scopeMessagePartialMatch($query, string $keyword = null): mixed
+    public function scopeMessagePartialMatch(Builder $query, string $keyword = null): Builder
     {
         if (!$keyword) {
             return $query;
