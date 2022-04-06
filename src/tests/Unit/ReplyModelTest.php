@@ -38,6 +38,7 @@ class ReplyModelTest extends TestCase
     /**
      * relation test
      *
+     * @see https://dev.to/tonyfrenzy/part-2-testing-model-relationships-in-laravel-basic-3a44
      * @see https://github.com/bitfumes/laravel-test-driven-api/blob/main/tests/Unit/TodoListTest.php
      * @return void
      */
