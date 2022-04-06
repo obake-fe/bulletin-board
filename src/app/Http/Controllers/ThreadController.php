@@ -50,6 +50,13 @@ class ThreadController extends Controller
     {
         $thread = new Thread();
         $form = $request->all();
+        $image = $request->file('image');
+
+        if (!is_null($image)) {
+            $file_name = $image->getClientOriginalName();
+            $image->storeAs('', $file_name);
+        }
+
         unset($form['_token']);
         $thread->fill($form)->save();
         return redirect('/');
