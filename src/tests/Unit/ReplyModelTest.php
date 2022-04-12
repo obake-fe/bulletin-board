@@ -50,7 +50,7 @@ class ReplyModelTest extends TestCase
         // Method 1: Test by count that a thread has a parent relationship with reply
         $this->assertEquals(1, $thread->replies->count());
 
-        // Method 2: Thread is related to reply is a Thread instance.
+        // Method 2: Thread is related to reply which is a Thread instance.
         $this->assertInstanceOf(Thread::class, $reply->thread);
     }
 }
