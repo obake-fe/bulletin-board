@@ -61,11 +61,12 @@
                                 <p>{{$obj->post_date}}</p>
                                 <p>{{$obj->author}}</p>
                                 <p>{{$obj->message}}</p>
+                                <img src="{{ \Illuminate\Support\Facades\Storage::url($obj->image) }}" width="100px" alt="">
                             </div>
                         @endforeach
                     @endif
                     <hr>
-                    <form action="/reply" method="post">
+                    <form action="/reply" method="post" enctype="multipart/form-data">
                         @csrf
                         <div>
                             <div class="flex items-center mt-2">
@@ -84,6 +85,9 @@
                             @error('message')
                             <p class="text-red-500">{{$message}}</p>
                             @enderror
+                        </div>
+                        <div class="mt-2">
+                            <input type="file" id="image" name="image">
                         </div>
                         <input type="hidden" name="thread_id" value="{{$item->entry_id}}">
                         <button type="submit" name="operation" value="post" class="mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Reply</button>

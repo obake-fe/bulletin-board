@@ -17,6 +17,7 @@ class ReplyController extends Controller
      * Replyボタン押下時の処理
      *
      * 返信を保存し、再度メインページを開く
+     * 画像があれば、画像のパスをDBに保存する
      *
      * @param ReplyRequest $request
      * @return Redirector|RedirectResponse|Application
@@ -25,6 +26,13 @@ class ReplyController extends Controller
     {
         $reply = new Reply();
         $form = $request->all();
+        $image = $request->file('image');
+
+        if (!is_null($image)) {
+            $file_name = $image->getClientOriginalName();
+            $form['image'] = $image->storeAs('public', $file_name);
+        }
+
         unset($form['_token']);
         $reply->fill($form)->save();
         return redirect('/');
