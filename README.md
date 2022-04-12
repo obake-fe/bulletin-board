@@ -22,6 +22,13 @@ $ php artisan migrate
 $ php artisan db:seed  // add 50 dummy data
 ```
 
+## Develop
+```shell
+$ cd src
+$ npm install
+$ npm run watch // tailwind css watch mode
+```
+
 ## URL
 - http://localhost:8080
 

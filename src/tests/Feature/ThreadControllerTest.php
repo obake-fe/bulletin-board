@@ -30,6 +30,19 @@ class ThreadControllerTest extends TestCase
         // check pagination (get items by 10)
         $data = $response->getOriginalContent()->getData();
         $this->assertCount(10, $data['items']);
+
+
+        // with search keyword
+        Thread::factory()->create([
+            'author' => 'hoge',
+            'message' => 'test'
+        ]);
+
+        $responseWithKeyword = $this->call('GET', '/', ['keyword' => 'test']);
+        $responseWithKeyword->assertOk();
+
+        $dataWithKeyword = $responseWithKeyword->getOriginalContent()->getData();
+        $this->assertCount(1, $dataWithKeyword['items']);
     }
 
     /**

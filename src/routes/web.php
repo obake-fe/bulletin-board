@@ -15,4 +15,4 @@
 */
 
 Route::get('/', [ThreadController::class, 'index']);
-Route::post('/', [ThreadController::class, 'create']);
+Route::post('/', [ThreadController::class, 'store']);

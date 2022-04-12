@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,4 +17,36 @@ class Thread extends Model
 
     public const CREATED_AT = 'post_date';
     public const UPDATED_AT = null;
+
+    /**
+     * partial match search about name column
+     *
+     * @param Builder     $query
+     * @param string|null $keyword
+     * @return Builder
+     */
+    public function scopeAuthorPartialMatch(Builder $query, string $keyword = null): Builder
+    {
+        if (!$keyword) {
+            return $query;
+        }
+
+        return $query->where('author', 'like', "%$keyword%");
+    }
+
+    /**
+     * partial match search about message column
+     *
+     * @param Builder     $query
+     * @param string|null $keyword
+     * @return Builder
+     */
+    public function scopeMessagePartialMatch(Builder $query, string $keyword = null): Builder
+    {
+        if (!$keyword) {
+            return $query;
+        }
+
+        return $query->where('message', 'like', "%$keyword%");
+    }
 }
