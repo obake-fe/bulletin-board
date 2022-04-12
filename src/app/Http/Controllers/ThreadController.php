@@ -42,6 +42,7 @@ class ThreadController extends Controller
      * POSTボタン押下時の処理
      *
      * 投稿を保存し、再度メインページを開く
+     * 画像があれば、画像のパスをDBに保存する
      *
      * @param ThreadRequest $request
      * @return Redirector|RedirectResponse|Application
@@ -54,7 +55,7 @@ class ThreadController extends Controller
 
         if (!is_null($image)) {
             $file_name = $image->getClientOriginalName();
-            $image->storeAs('', $file_name);
+            $form['image'] = $image->storeAs('public', $file_name);
         }
 
         unset($form['_token']);

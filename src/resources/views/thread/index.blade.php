@@ -52,6 +52,7 @@
                         <p>{{$item->post_date}}</p>
                         <p>{{$item->author}}</p>
                         <p>{{$item->message}}</p>
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" width="100px" alt="">
                     </div>
                     @if(!is_null($item->replies))
                         @foreach($item->replies as $obj)

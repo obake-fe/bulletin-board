@@ -15,6 +15,7 @@ $ docker-compose exec web bash
 $ composer install
 $ php artisan optimize
 $ php artisan migrate
+$ php artisan storage:link
 ```
 
 ## Seeding
