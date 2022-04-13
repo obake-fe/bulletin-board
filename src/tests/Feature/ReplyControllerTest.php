@@ -3,6 +3,8 @@
   namespace Tests\Feature;
 
   use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Illuminate\Http\UploadedFile;
+  use Illuminate\Support\Facades\Storage;
   use Tests\TestCase;
 
 /**
@@ -27,6 +29,20 @@ class ReplyControllerTest extends TestCase
             'author' => 'test',
             'message' => 'reply test'
         ])->assertRedirect('/');
+
+
+        // image post success
+        Storage::fake('local');
+
+        $file = UploadedFile::fake()->image('test.png');
+        $this->post('/', [
+            'author' => 'test',
+            'message' => 'image post test',
+            'image' => $file
+        ])->assertRedirect('/');
+
+        Storage::disk('local')->assertExists('public/images/test.png');
+
 
         // post fail (validation error)
         $this->post('/reply', [

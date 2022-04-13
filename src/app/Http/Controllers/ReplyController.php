@@ -30,7 +30,7 @@ class ReplyController extends Controller
 
         if (!is_null($image)) {
             $file_name = $image->getClientOriginalName();
-            $form['image'] = $image->storeAs('public', $file_name);
+            $form['image'] = $image->storeAs('public/images', $file_name);
         }
 
         unset($form['_token']);
