@@ -19,3 +19,9 @@ Route::get('/', [ThreadController::class, 'index']);
 Route::post('/', [ThreadController::class, 'store']);
 
 Route::post('/reply', [ReplyController::class, 'store']);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__ . '/auth.php';
