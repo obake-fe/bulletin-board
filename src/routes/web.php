@@ -15,8 +15,10 @@
 |
 */
 
-Route::get('/', [ThreadController::class, 'index'])->middleware('auth');
-Route::post('/', [ThreadController::class, 'store']);
+Route::controller(ThreadController::class)->group(function () {
+    Route::get('/', 'index')->middleware('auth');
+    Route::post('/', 'store');
+});
 
 Route::post('/reply', [ReplyController::class, 'store']);
 
