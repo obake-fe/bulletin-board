@@ -15,7 +15,7 @@
 |
 */
 
-Route::get('/', [ThreadController::class, 'index']);
+Route::get('/', [ThreadController::class, 'index'])->middleware('auth');
 Route::post('/', [ThreadController::class, 'store']);
 
 Route::post('/reply', [ReplyController::class, 'store']);
