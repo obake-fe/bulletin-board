@@ -8,15 +8,6 @@
             @csrf
             <div>
                 <div class="flex items-center mt-2">
-                    <label for="author" class="w-12">name</label>
-                    <input type="text" name="author" id="author" value="{{old('author')}}" class="border-2">
-                </div>
-                @error('author')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
-            </div>
-            <div>
-                <div class="flex items-center mt-2">
                     <label for="message" class="w-12">text</label>
                     <textarea name="message" id="message" class="border-2 w-full">{{old('message')}}</textarea>
                 </div>
@@ -68,15 +59,6 @@
                     <hr>
                     <form action="/reply" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div>
-                            <div class="flex items-center mt-2">
-                                <label for="author" class="w-12">name</label>
-                                <input type="text" name="author" id="author" value="{{old('author')}}" class="border-2">
-                            </div>
-                            @error('author')
-                            <p class="text-red-500">{{$message}}</p>
-                            @enderror
-                        </div>
                         <div>
                             <div class="flex items-center mt-2">
                                 <label for="message" class="w-12">text</label>
