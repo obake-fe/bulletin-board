@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+// guest middlewareにより、認証済みの場合はrootにredirectされる
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
@@ -34,6 +35,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.update');
 });
 
+// auth middlewareにより、未認証の場合はloginページにredirectされる
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
