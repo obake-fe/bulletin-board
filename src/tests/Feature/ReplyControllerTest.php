@@ -23,9 +23,9 @@ class ReplyControllerTest extends TestCase
 
         // post success
         $this->post('/reply', [
-        'thread_id' => 1,
-        'author' => 'test',
-        'message' => 'reply test'
+            'thread_id' => 1,
+            'author' => 'test',
+            'message' => 'reply test'
         ])->assertRedirect('/');
 
         // post fail (validation error)
