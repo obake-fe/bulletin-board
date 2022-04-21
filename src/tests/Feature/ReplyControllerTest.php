@@ -2,6 +2,7 @@
 
   namespace Tests\Feature;
 
+  use App\Models\User;
   use Illuminate\Foundation\Testing\RefreshDatabase;
   use Illuminate\Http\UploadedFile;
   use Illuminate\Support\Facades\Storage;
@@ -16,17 +17,18 @@ class ReplyControllerTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * test about create function
+     * test about store function
      *
      * @return void
      */
     public function testStore(): void
     {
 
-        // post success
-        $this->post('/reply', [
+        $user = User::factory()->create();
+
+        // post success（actingAsメソッドでログイン状態にする)
+        $this->actingAs($user)->post('/reply', [
             'thread_id' => 1,
-            'author' => 'test',
             'message' => 'reply test'
         ])->assertRedirect('/');
 
@@ -35,8 +37,7 @@ class ReplyControllerTest extends TestCase
         Storage::fake('local');
 
         $file = UploadedFile::fake()->image('test.png');
-        $this->post('/', [
-            'author' => 'test',
+        $this->actingAs($user)->post('/', [
             'message' => 'image post test',
             'image' => $file
         ])->assertRedirect('/');
@@ -45,9 +46,8 @@ class ReplyControllerTest extends TestCase
 
 
         // post fail (validation error)
-        $this->post('/reply', [
-            'author' => '',
-            'message' => 'post test'
+        $this->actingAs($user)->post('/reply', [
+            'message' => ''
         ])->assertStatus(302);
     }
 }

@@ -38,28 +38,18 @@ class ReplyRequestTest extends TestCase
     {
         return [
             '正常系' => [
-                ['author', 'message'],
-                ['hoge', 'fuga'],
+                ['message'],
+                ['hoge'],
                 true
             ],
-            'author 必須エラー' => [
-                ['author', 'message'],
-                ['', 'fuga'],
-                false
-            ],
-            'author 最大文字数エラー' => [
-                ['author', 'message'],
-                [str_repeat('a', 21), 'fuga'],
-                false
-            ],
             'message 必須エラー' => [
-                ['author', 'message'],
-                ['hoge', ''],
+                ['message'],
+                [''],
                 false
             ],
-            'author 最大バイト数エラー' => [
-                ['author', 'message'],
-                ['hoge', str_repeat('a', 201)],
+            'message 最大バイト数エラー' => [
+                ['message'],
+                [str_repeat('a', 201)],
                 false
             ]
         ];
