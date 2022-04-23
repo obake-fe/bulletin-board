@@ -39,23 +39,26 @@
         <div class="mt-2">
             @foreach($items as $item)
                 <div class="first:mt-0 mt-4 p-4 border-2 border-gray-400">
-                    <div class="mb-2">
-                        <p>{{$item->post_date}}</p>
-                        <p>{{$item->author}}</p>
-                        <p>{{$item->message}}</p>
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" width="100px" alt="">
+                    <div class="flex items-end mb-2">
+                        <div class="w-full">
+                            <p>{{$item->post_date}}</p>
+                            <p>{{$item->author}}</p>
+                            <p>{{$item->message}}</p>
+                            <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" width="100px" alt="">
+                        </div>
+                        <a href="{{ route('edit', ['entry_id' => $item->entry_id]) }}" class="h-9 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Edit</a>
+                        @if(!is_null($item->replies))
+                            @foreach($item->replies as $obj)
+                                <hr>
+                                <div class="my-2">
+                                    <p>{{$obj->post_date}}</p>
+                                    <p>{{$obj->author}}</p>
+                                    <p>{{$obj->message}}</p>
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($obj->image) }}" width="100px" alt="">
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
-                    @if(!is_null($item->replies))
-                        @foreach($item->replies as $obj)
-                            <hr>
-                            <div class="my-2">
-                                <p>{{$obj->post_date}}</p>
-                                <p>{{$obj->author}}</p>
-                                <p>{{$obj->message}}</p>
-                                <img src="{{ \Illuminate\Support\Facades\Storage::url($obj->image) }}" width="100px" alt="">
-                            </div>
-                        @endforeach
-                    @endif
                     <hr>
                     <form action="{{ route('reply') }}" method="post" enctype="multipart/form-data">
                         @csrf

@@ -65,4 +65,17 @@ class ThreadController extends Controller
         $thread->fill($form)->save();
         return redirect('/');
     }
+
+    /**
+     * 編集画面に遷移させる
+     *
+     * @param $entry_id
+     * @return View|Factory|Application
+     */
+    public function edit($entry_id): View|Factory|Application
+    {
+        // 指定されたidを持つレコードを取得する
+        $post = Thread::findOrFail($entry_id);
+        return view('thread.edit', ['post' => $post]);
+    }
 }
