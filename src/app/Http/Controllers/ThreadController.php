@@ -75,7 +75,30 @@ class ThreadController extends Controller
     public function edit($entry_id): View|Factory|Application
     {
         // 指定されたidを持つレコードを取得する
-        $post = Thread::findOrFail($entry_id);
-        return view('thread.edit', ['post' => $post]);
+        $thread = Thread::findOrFail($entry_id);
+        return view('thread.edit', ['thread' => $thread]);
+    }
+
+    /**
+     * 編集ページのPOSTボタン押下時の処理
+     *
+     * @param ThreadRequest $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function update(ThreadRequest $request): Redirector|RedirectResponse|Application
+    {
+        $form = $request->all();
+        $image = $request->file('image');
+
+        if (!is_null($image)) {
+            $file_name = $image->getClientOriginalName();
+            $form['image'] = $image->storeAs('public/images', $file_name);
+        }
+
+        unset($form['_token']);
+
+        $thread = Thread::find($form['entry_id']);
+        $thread->fill($form)->save();
+        return redirect('/');
     }
 }

@@ -4,7 +4,8 @@
 
 @section('content')
     <section class="mt-8 mx-[auto] p-4 border-2 rounded-md">
-        <form action="{{ route('root') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('update', ['entry_id' => $thread->entry_id]) }}" method="post" enctype="multipart/form-data">
+            @method('PUT')
             @csrf
             <div>
                 <div class="flex items-center mt-2">

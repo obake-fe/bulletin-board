@@ -46,7 +46,9 @@
                             <p>{{$item->message}}</p>
                             <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" width="100px" alt="">
                         </div>
-                        <a href="{{ route('edit', ['entry_id' => $item->entry_id]) }}" class="h-9 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Edit</a>
+                        @if(Auth::user()->name === $item->author)
+                            <a href="{{ route('edit', ['entry_id' => $item->entry_id]) }}" class="h-9 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Edit</a>
+                        @endif
                         @if(!is_null($item->replies))
                             @foreach($item->replies as $obj)
                                 <hr>

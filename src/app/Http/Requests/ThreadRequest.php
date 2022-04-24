@@ -18,7 +18,8 @@ class ThreadRequest extends FormRequest
     public function authorize()
     {
         // ルートからのみのアクセスを受け付ける
-        return $this->path() === '/';
+        $hoge = $this->path();
+        return ($this->path() === '/' || $this->path() === 'update');
     }
 
     /**

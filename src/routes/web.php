@@ -19,6 +19,7 @@ Route::controller(ThreadController::class)->group(function () {
     Route::get('/', 'index')->middleware('auth')->name('root');
     Route::post('/', 'store');
     Route::get('/edit/{entry_id}', 'edit')->middleware('auth')->name('edit');
+    Route::put('/update', 'update')->name('update');
 });
 
 
