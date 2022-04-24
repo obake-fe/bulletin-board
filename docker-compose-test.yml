@@ -1,29 +1,29 @@
 version: "3.3"
 services:
-  web:
-    build: ./infra/php
-    volumes:
-      - ./src:/data
-    depends_on:
-      - db
+    web:
+        build: ./infra/php
+        volumes:
+            - ./src:/data
+        depends_on:
+            - db
 
-  nginx:
-    image: nginx:1.20-alpine
-    ports:
-      - "8080:80"
-    volumes:
-      - ./src:/data
-      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
-    working_dir: /data
+    nginx:
+        image: nginx:1.20-alpine
+        ports:
+            - "8080:80"
+        volumes:
+            - ./src:/data
+            - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        working_dir: /data
 
-  db:
-    build:
-      context: ./infra/mysql
-      dockerfile: DockerfileTest
-    ports:
-      - "13306:3306"
-    volumes:
-      - db-store:/var/lib/mysql
+    db:
+        build:
+            context: ./infra/mysql
+            dockerfile: DockerfileTest
+        ports:
+            - "13306:3306"
+        volumes:
+            - db-store:/var/lib/mysql
 
 volumes:
-  db-store:
+    db-store:
