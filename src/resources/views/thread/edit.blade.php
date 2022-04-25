@@ -10,7 +10,7 @@
             <div>
                 <div class="flex items-center mt-2">
                     <label for="message" class="w-12">text</label>
-                    <textarea name="message" id="message" class="border-2 w-full">{{old('message')}}</textarea>
+                    <textarea name="message" id="message" class="border-2 w-full">@if(old('message')){{old('message')}}@else{{$thread->message}}@endif</textarea>
                 </div>
                 @error('message')
                 <p class="text-red-500">{{$message}}</p>
