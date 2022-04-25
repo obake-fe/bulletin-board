@@ -69,13 +69,21 @@ class ThreadController extends Controller
     /**
      * 編集画面に遷移させる
      *
+     * 認証済みユーザー以外のユーザーが投稿したスレッドの編集ページにアクセスしようとした場合、
+     * ルートにリダイレクトする
+     *
      * @param $entry_id
-     * @return View|Factory|Application
+     * @return Application|Factory|View|RedirectResponse|Redirector
      */
-    public function edit($entry_id): View|Factory|Application
+    public function edit($entry_id)
     {
         // 指定されたidを持つレコードを取得する
         $thread = Thread::findOrFail($entry_id);
+
+        if ($thread['author'] !== auth()->user()->name) {
+            return redirect('/');
+        }
+
         return view('thread.edit', ['thread' => $thread]);
     }
 
