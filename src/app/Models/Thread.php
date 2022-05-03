@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * threads tableに接続する
@@ -17,6 +18,24 @@ class Thread extends Model
 
     public const CREATED_AT = 'post_date';
     public const UPDATED_AT = null;
+
+    /**
+     * setting primary key
+     *
+     * @var string
+     */
+    protected $primaryKey = 'entry_id';
+
+    /**
+     * relation
+     *
+     * @return HasMany
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class, 'thread_id', 'entry_id');
+    }
+
 
     /**
      * partial match search about name column
