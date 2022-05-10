@@ -4,6 +4,8 @@
 
   use App\Models\Thread;
   use Illuminate\Foundation\Testing\RefreshDatabase;
+  use Illuminate\Http\UploadedFile;
+  use Illuminate\Support\Facades\Storage;
   use Tests\TestCase;
 
 /**
@@ -50,13 +52,27 @@ class ThreadControllerTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function testStore(): void
     {
         // post success
         $this->post('/', [
-        'author' => 'test',
-        'message' => 'post test'
+            'author' => 'test',
+            'message' => 'post test'
         ])->assertRedirect('/');
+
+
+        // image post success
+        Storage::fake('local');
+
+        $file = UploadedFile::fake()->image('test.png');
+        $this->post('/', [
+            'author' => 'test',
+            'message' => 'image post test',
+            'image' => $file
+        ])->assertRedirect('/');
+
+        Storage::disk('local')->assertExists('public/images/test.png');
+
 
         // post fail (validation error)
         $this->post('/', [

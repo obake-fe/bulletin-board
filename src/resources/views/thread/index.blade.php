@@ -4,7 +4,7 @@
 
 @section('content')
     <section class="mt-8 mx-[auto] p-4 border-2 rounded-md">
-        <form action="/" method="post">
+        <form action="/" method="post" enctype="multipart/form-data">
             @csrf
             <div>
                 <div class="flex items-center mt-2">
@@ -23,6 +23,9 @@
                 @error('message')
                     <p class="text-red-500">{{$message}}</p>
                 @enderror
+            </div>
+            <div class="mt-2">
+                <input type="file" id="image" name="image">
             </div>
             <button type="submit" name="operation" value="post" class="mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Post</button>
         </form>
@@ -49,6 +52,7 @@
                         <p>{{$item->post_date}}</p>
                         <p>{{$item->author}}</p>
                         <p>{{$item->message}}</p>
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}" width="100px" alt="">
                     </div>
                     @if(!is_null($item->replies))
                         @foreach($item->replies as $obj)
@@ -57,11 +61,12 @@
                                 <p>{{$obj->post_date}}</p>
                                 <p>{{$obj->author}}</p>
                                 <p>{{$obj->message}}</p>
+                                <img src="{{ \Illuminate\Support\Facades\Storage::url($obj->image) }}" width="100px" alt="">
                             </div>
                         @endforeach
                     @endif
                     <hr>
-                    <form action="/reply" method="post">
+                    <form action="/reply" method="post" enctype="multipart/form-data">
                         @csrf
                         <div>
                             <div class="flex items-center mt-2">
@@ -80,6 +85,9 @@
                             @error('message')
                             <p class="text-red-500">{{$message}}</p>
                             @enderror
+                        </div>
+                        <div class="mt-2">
+                            <input type="file" id="image" name="image">
                         </div>
                         <input type="hidden" name="thread_id" value="{{$item->entry_id}}">
                         <button type="submit" name="operation" value="post" class="mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Reply</button>

@@ -40,6 +40,7 @@ jobs:
         run: |
           docker-compose -f docker-compose-test.yml exec -T web cp .env.testing .env
           docker-compose -f docker-compose-test.yml exec -T web php artisan key:generate
+          docker-compose -f docker-compose-test.yml exec -T web php artisan storage:link
 
       - name: Laravel Migrate Testing
         run: docker-compose -f docker-compose-test.yml exec -T web php artisan migrate
