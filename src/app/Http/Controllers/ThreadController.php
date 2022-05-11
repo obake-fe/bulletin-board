@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadRequest;
+use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -49,8 +50,11 @@ class ThreadController extends Controller
      */
     public function store(ThreadRequest $request): Redirector|RedirectResponse|Application
     {
-        $thread = new Thread();
         $form = $request->all();
+
+        // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
+        $thread = array_key_exists('thread_id', $form) ? new Reply() : new Thread();
+
         $image = $request->file('image');
 
         if (!is_null($image)) {

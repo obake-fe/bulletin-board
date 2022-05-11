@@ -67,7 +67,7 @@
                         @endforeach
                     @endif
                     <hr>
-                    <form action="{{ route('reply') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('root') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div>
                             <div class="flex items-center mt-2">

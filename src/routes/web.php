@@ -1,6 +1,5 @@
 <?php
 
-    use App\Http\Controllers\ReplyController;
     use App\Http\Controllers\ThreadController;
     use Illuminate\Support\Facades\Route;
 
@@ -21,9 +20,6 @@ Route::controller(ThreadController::class)->group(function () {
     Route::get('/edit/{entry_id}', 'edit')->middleware('auth')->name('edit');
     Route::put('/update', 'update')->name('update');
 });
-
-
-Route::post('/reply', [ReplyController::class, 'store'])->name('reply');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -66,6 +66,10 @@ class ThreadControllerTest extends TestCase
             'message' => 'post test'
         ])->assertRedirect('/');
 
+        // post fail (validation error)
+        $authUser->post('/', [
+            'message' => ''
+        ])->assertRedirect('/');
 
         // image post success
         Storage::fake('local');
@@ -83,5 +87,26 @@ class ThreadControllerTest extends TestCase
         $authUser->post('/', [
             'message' => 'post test'
         ])->assertStatus(302);
+        // reply post success
+        $authUser->post('/', [
+            'thread_id' => 1,
+            'message' => 'reply test'
+        ])->assertRedirect('/');
+
+        // reply post fail (validation error)
+        $authUser->post('/', [
+            'thread_id' => 1,
+            'message' => ''
+        ])->assertRedirect('/');
+
+        // reply image post success
+        Storage::fake('local');
+        $file = UploadedFile::fake()->image('test.png');
+        $authUser->post('/', [
+            'thread_id' => 1,
+            'message' => 'image post test',
+            'image' => $file
+        ])->assertRedirect('/');
+        Storage::disk('local')->assertExists('public/images/test.png');
     }
 }
