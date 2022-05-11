@@ -53,11 +53,16 @@
                     @if(!is_null($item->replies))
                         @foreach($item->replies as $obj)
                             <hr>
-                            <div class="my-2">
-                                <p>{{$obj->post_date}}</p>
-                                <p>{{$obj->author}}</p>
-                                <p>{{$obj->message}}</p>
-                                <img src="{{ \Illuminate\Support\Facades\Storage::url($obj->image) }}" width="100px" alt="">
+                            <div class="flex items-end my-2">
+                                <div class="w-full">
+                                    <p>{{$obj->post_date}}</p>
+                                    <p>{{$obj->author}}</p>
+                                    <p>{{$obj->message}}</p>
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($obj->image) }}" width="100px" alt="">
+                                </div>
+                                @if(Auth::user()->name === $obj->author)
+                                    <a href="{{ route('edit', ['entry_id' => $obj->id]) }}" class="h-9 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Edit</a>
+                                @endif
                             </div>
                         @endforeach
                     @endif
