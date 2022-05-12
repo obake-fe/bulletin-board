@@ -77,12 +77,13 @@ class ThreadController extends Controller
      * ルートにリダイレクトする
      *
      * @param $entry_id
+     * @param null $id
      * @return Application|Factory|View|RedirectResponse|Redirector
      */
-    public function edit($entry_id)
+    public function edit($entry_id, $id = null)
     {
         // 指定されたidを持つレコードを取得する
-        $thread = Thread::findOrFail($entry_id);
+        $thread = is_null($id) ? Thread::findOrFail($entry_id) : Reply::findOrFail($id);
 
         if ($thread['author'] !== auth()->user()->name) {
             return redirect('/');
@@ -108,8 +109,9 @@ class ThreadController extends Controller
         }
 
         unset($form['_token']);
-
-        $thread = Thread::find($form['entry_id']);
+    
+        // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
+        $thread = array_key_exists('thread_id', $form) ? Reply::find($form['id']) : Thread::find($form['entry_id']);
         $thread->fill($form)->save();
         return redirect('/');
     }

@@ -61,7 +61,7 @@
                                     <img src="{{ \Illuminate\Support\Facades\Storage::url($obj->image) }}" width="100px" alt="">
                                 </div>
                                 @if(Auth::user()->name === $obj->author)
-                                    <a href="{{ route('edit', ['entry_id' => $obj->id]) }}" class="h-9 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Edit</a>
+                                    <a href="{{ route('edit', ['entry_id' => $obj->thread_id, 'id' => $obj->id]) }}" class="h-9 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Edit</a>
                                 @endif
                             </div>
                         @endforeach

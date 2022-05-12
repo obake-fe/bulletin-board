@@ -4,7 +4,13 @@
 
 @section('content')
     <section class="mt-8 mx-[auto] p-4 border-2 rounded-md">
+        {{-- Replpy用 --}}
+        @if($thread->id)
+        <form action="{{ route('update', ['id' => $thread->id, 'thread_id' => $thread->thread_id]) }}" method="post" enctype="multipart/form-data">
+        {{-- Thread用 --}}
+        @else
         <form action="{{ route('update', ['entry_id' => $thread->entry_id]) }}" method="post" enctype="multipart/form-data">
+        @endif
             @method('PUT')
             @csrf
             <div>
