@@ -2,6 +2,7 @@
 
   namespace Tests\Feature;
 
+  use App\Models\Reply;
   use App\Models\Thread;
   use App\Models\User;
   use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -108,5 +109,36 @@ class ThreadControllerTest extends TestCase
             'image' => $file
         ])->assertRedirect('/');
         Storage::disk('local')->assertExists('public/images/test.png');
+    }
+
+    /**
+     * test about edit function
+     *
+     * @return void
+     */
+    public function testEdit(): void
+    {
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+        $thread_id = 1;
+        $thread = Thread::factory()->create([
+            'entry_id' => $thread_id,
+            'author' => $user1->name
+        ]);
+        $reply = Reply::factory()->create([
+            'id' => 10,
+            'thread_id' => $thread->entry_id,
+            'author' => $user1->name
+        ]);
+
+        // Edit thread
+        $this->actingAs($user1)->get('/edit/1')->assertOk();
+        $this->actingAs($user2)->get('/edit/1')->assertRedirect('/');
+        $this->actingAs($user1)->get('/edit/2')->assertStatus(404);
+
+        // edit reply
+        $this->actingAs($user1)->get('/edit/1/10')->assertOk();
+        $this->actingAs($user2)->get('/edit/1/10')->assertRedirect('/');
+        $this->actingAs($user1)->get('/edit/1/20')->assertStatus(404);
     }
 }
