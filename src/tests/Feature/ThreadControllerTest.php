@@ -141,4 +141,75 @@ class ThreadControllerTest extends TestCase
         $this->actingAs($user2)->get('/edit/1/10')->assertRedirect('/');
         $this->actingAs($user1)->get('/edit/1/20')->assertStatus(404);
     }
+
+    /**
+     * test about update function
+     *
+     * @return void
+     */
+    public function testUpdate(): void
+    {
+        $user = User::factory()->create();
+
+        $thread_id = 1;
+        $thread = Thread::factory()->create([
+            'entry_id' => $thread_id,
+            'author' => $user->name
+        ]);
+        $reply = Reply::factory()->create([
+            'id' => 10,
+            'thread_id' => $thread->entry_id,
+            'author' => $user->name
+        ]);
+
+        // post success（actingAsメソッドでログイン状態にする)
+        $this->actingAs($user)->put('/update', [
+            'entry_id' => $thread->entry_id,
+            'message' => 'edit post test'
+        ])->assertRedirect('/');
+
+        // post fail (validation error)
+        $this->actingAs($user)->get("/edit/{$thread->entry_id}");
+        $this->put('/update', [
+            'entry_id' => $thread->entry_id,
+            'message' => ''
+        ])->assertRedirect("/edit/{$thread->entry_id}");
+
+        // image post success
+        Storage::fake('local');
+        $file = UploadedFile::fake()->image('test.png');
+        $this->actingAs($user)->put('/update', [
+            'entry_id' => $thread->entry_id,
+            'message' => 'edit image post test',
+            'image' => $file
+        ])->assertRedirect('/');
+        Storage::disk('local')->assertExists('public/images/test.png');
+
+
+        // reply post success
+        $this->actingAs($user)->put('/update', [
+            'id' => $reply->id,
+            'thread_id' => $thread->entry_id,
+            'message' => 'edit reply test'
+        ])->assertRedirect('/');
+
+        // reply post fail (validation error)
+        $this->actingAs($user)->get("/edit/{$thread->entry_id}/{$reply->id}");
+        $this->actingAs($user)->put('/update', [
+            'id' => $reply->id,
+            'thread_id' => $thread->entry_id,
+            'message' => ''
+        ])->assertRedirect("/edit/{$thread->entry_id}/{$reply->id}");
+
+        // reply image post success
+        Storage::fake('local');
+        $file = UploadedFile::fake()->image('test.png');
+        $this->actingAs($user)->put('/update', [
+            'id' => $reply->id,
+            'thread_id' => $thread->entry_id,
+            'message' => 'edit image post test',
+            'image' => $file
+        ])->assertRedirect('/');
+        Storage::disk('local')->assertExists('public/images/test.png');
+    }
 }
