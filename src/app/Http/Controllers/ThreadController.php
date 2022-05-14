@@ -109,7 +109,7 @@ class ThreadController extends Controller
         }
 
         unset($form['_token']);
-    
+
         // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
         $thread = array_key_exists('thread_id', $form) ? Reply::find($form['id']) : Thread::find($form['entry_id']);
         $thread->fill($form)->save();

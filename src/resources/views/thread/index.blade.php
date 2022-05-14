@@ -3,6 +3,9 @@
 @section('title', 'Bulletin Board')
 
 @section('content')
+    @error('message')
+        <p class="mt-8 p-1 text-red-500 bg-red-300">Validation Error : {{$message}}</p>
+    @enderror
     <section class="mt-8 mx-[auto] p-4 border-2 rounded-md">
         <form action="{{ route('root') }}" method="post" enctype="multipart/form-data">
             @csrf
@@ -11,9 +14,6 @@
                     <label for="message" class="w-12">text</label>
                     <textarea name="message" id="message" class="border-2 w-full">{{old('message')}}</textarea>
                 </div>
-                @error('message')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
             </div>
             <div class="mt-2">
                 <input type="file" id="image" name="image">
@@ -74,9 +74,6 @@
                                 <label for="message" class="w-12">text</label>
                                 <textarea name="message" id="message" class="border-2 w-full">{{old('message')}}</textarea>
                             </div>
-                            @error('message')
-                            <p class="text-red-500">{{$message}}</p>
-                            @enderror
                         </div>
                         <div class="mt-2">
                             <input type="file" id="image" name="image">
