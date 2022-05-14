@@ -475,6 +475,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: -1px;
 }.block {
   display: block;
+}.inline-block {
+  display: inline-block;
 }.flex {
   display: flex;
 }.inline-flex {

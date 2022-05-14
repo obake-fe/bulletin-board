@@ -28,4 +28,5 @@
             <button type="submit" name="operation" value="post" class="mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Post</button>
         </form>
     </section>
+    <a href="/" class="inline-block mt-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Top</a>
 @endsection
