@@ -29,7 +29,6 @@ class ThreadRequest extends FormRequest
     public function rules()
     {
         return [
-            'author' => ['required', 'max:20'],
             'message' => ['required', new MaxByteRule(200)]
         ];
     }

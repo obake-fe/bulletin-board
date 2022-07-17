@@ -58,6 +58,9 @@ class ThreadController extends Controller
             $form['image'] = $image->storeAs('public/images', $file_name);
         }
 
+        // 認証済みユーザーの名前で保存する（ヘルパ関数authから認証済みユーザー名を取得）
+        $form['author'] = auth()->user()->name;
+
         unset($form['_token']);
         $thread->fill($form)->save();
         return redirect('/');
