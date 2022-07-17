@@ -25,9 +25,11 @@ class ReplyControllerTest extends TestCase
     {
 
         $user = User::factory()->create();
+        // actingAsメソッドでログイン状態にする
+        $authUser = $this->actingAs($user);
 
-        // post success（actingAsメソッドでログイン状態にする)
-        $this->actingAs($user)->post('/reply', [
+        // post success
+        $authUser->post('/reply', [
             'thread_id' => 1,
             'message' => 'reply test'
         ])->assertRedirect('/');
@@ -37,7 +39,7 @@ class ReplyControllerTest extends TestCase
         Storage::fake('local');
 
         $file = UploadedFile::fake()->image('test.png');
-        $this->actingAs($user)->post('/', [
+        $authUser->post('/', [
             'message' => 'image post test',
             'image' => $file
         ])->assertRedirect('/');
@@ -46,7 +48,7 @@ class ReplyControllerTest extends TestCase
 
 
         // post fail (validation error)
-        $this->actingAs($user)->post('/reply', [
+        $authUser->post('/reply', [
             'message' => ''
         ])->assertStatus(302);
     }

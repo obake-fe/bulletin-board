@@ -58,9 +58,11 @@ class ThreadControllerTest extends TestCase
     public function testStore(): void
     {
         $user = User::factory()->create();
+        // actingAsメソッドでログイン状態にする
+        $authUser = $this->actingAs($user);
 
-        // post success（actingAsメソッドでログイン状態にする)
-        $this->actingAs($user)->post('/', [
+        // post success
+        $authUser->post('/', [
             'message' => 'post test'
         ])->assertRedirect('/');
 
@@ -69,7 +71,7 @@ class ThreadControllerTest extends TestCase
         Storage::fake('local');
 
         $file = UploadedFile::fake()->image('test.png');
-        $this->actingAs($user)->post('/', [
+        $authUser->post('/', [
             'message' => 'image post test',
             'image' => $file
         ])->assertRedirect('/');
@@ -78,7 +80,7 @@ class ThreadControllerTest extends TestCase
 
 
         // post fail (validation error)
-        $this->actingAs($user)->post('/', [
+        $authUser->post('/', [
             'message' => 'post test'
         ])->assertStatus(302);
     }
