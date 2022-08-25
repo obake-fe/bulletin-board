@@ -58,13 +58,11 @@
   <exclude-pattern>app/Http/Middleware/TrimStrings.php</exclude-pattern>
   <exclude-pattern>app/Http/Middleware/TrustHosts.php</exclude-pattern>
   <exclude-pattern>app/Http/Middleware/TrustProxies.php</exclude-pattern>
-  <exclude-pattern>app/Http/Middleware/VerifyCsrfToken.php</exclude-pattern>
   <exclude-pattern>app/Models/User.php</exclude-pattern>
   <exclude-pattern>app/Providers/AppServiceProvider.php</exclude-pattern>
   <exclude-pattern>app/Providers/AuthServiceProvider.php</exclude-pattern>
   <exclude-pattern>app/Providers/BroadcastServiceProvider.php</exclude-pattern>
   <exclude-pattern>app/Providers/EventServiceProvider.php</exclude-pattern>
-  <exclude-pattern>app/Providers/RouteServiceProvider.php</exclude-pattern>
   <exclude-pattern>database/seeders/DatabaseSeeder.php</exclude-pattern>
   <exclude-pattern>tests/CreatesApplication.php</exclude-pattern>
   <exclude-pattern>tests/TestCase.php</exclude-pattern>

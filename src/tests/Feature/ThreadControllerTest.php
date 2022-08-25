@@ -3,6 +3,7 @@
   namespace Tests\Feature;
 
   use App\Models\Thread;
+  use App\Models\User;
   use Illuminate\Foundation\Testing\RefreshDatabase;
   use Illuminate\Http\UploadedFile;
   use Illuminate\Support\Facades\Storage;
@@ -23,10 +24,12 @@ class ThreadControllerTest extends TestCase
      */
     public function testIndex(): void
     {
+        $user = User::factory()->create();
+
         Thread::factory()->count(20)->create();
 
         // access to index
-        $response = $this->get('/');
+        $response = $this->actingAs($user)->get('/');
         $response->assertOk();
 
         // check pagination (get items by 10)
@@ -48,15 +51,18 @@ class ThreadControllerTest extends TestCase
     }
 
     /**
-     * test about create function
+     * test about store function
      *
      * @return void
      */
     public function testStore(): void
     {
+        $user = User::factory()->create();
+        // actingAsメソッドでログイン状態にする
+        $authUser = $this->actingAs($user);
+
         // post success
-        $this->post('/', [
-            'author' => 'test',
+        $authUser->post('/', [
             'message' => 'post test'
         ])->assertRedirect('/');
 
@@ -65,8 +71,7 @@ class ThreadControllerTest extends TestCase
         Storage::fake('local');
 
         $file = UploadedFile::fake()->image('test.png');
-        $this->post('/', [
-            'author' => 'test',
+        $authUser->post('/', [
             'message' => 'image post test',
             'image' => $file
         ])->assertRedirect('/');
@@ -75,8 +80,7 @@ class ThreadControllerTest extends TestCase
 
 
         // post fail (validation error)
-        $this->post('/', [
-            'author' => '',
+        $authUser->post('/', [
             'message' => 'post test'
         ])->assertStatus(302);
     }

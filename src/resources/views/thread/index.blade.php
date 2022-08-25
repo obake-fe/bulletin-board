@@ -4,17 +4,8 @@
 
 @section('content')
     <section class="mt-8 mx-[auto] p-4 border-2 rounded-md">
-        <form action="/" method="post" enctype="multipart/form-data">
+        <form action="{{ route('root') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <div>
-                <div class="flex items-center mt-2">
-                    <label for="author" class="w-12">name</label>
-                    <input type="text" name="author" id="author" value="{{old('author')}}" class="border-2">
-                </div>
-                @error('author')
-                    <p class="text-red-500">{{$message}}</p>
-                @enderror
-            </div>
             <div>
                 <div class="flex items-center mt-2">
                     <label for="message" class="w-12">text</label>
@@ -35,7 +26,7 @@
     </section>
     <section class="mt-2 p-4 border-2 rounded-md">
         <div class="">
-            <form action="/" method="get" class="flex items-center">
+            <form action="{{ route('root') }}" method="get" class="flex items-center">
                 <label for="keyword">search</label>
                 <input type="text" name="keyword" id="keyword" value="{{ $keyword }}" class="ml-2 border-2">
                 <button type="submit" name="operation" value="get" class="ml-2 p-1 border-2 border-gray-700 rounded-md bg-gray-300">Search</button>
@@ -66,17 +57,8 @@
                         @endforeach
                     @endif
                     <hr>
-                    <form action="/reply" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('reply') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <div>
-                            <div class="flex items-center mt-2">
-                                <label for="author" class="w-12">name</label>
-                                <input type="text" name="author" id="author" value="{{old('author')}}" class="border-2">
-                            </div>
-                            @error('author')
-                            <p class="text-red-500">{{$message}}</p>
-                            @enderror
-                        </div>
                         <div>
                             <div class="flex items-center mt-2">
                                 <label for="message" class="w-12">text</label>
