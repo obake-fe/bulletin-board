@@ -70,7 +70,7 @@ class ThreadControllerTest extends TestCase
         // post fail (validation error)
         $authUser->post('/', [
             'message' => ''
-        ])->assertRedirect('/');
+        ])->assertStatus(302);
 
         // image post success
         Storage::fake('local');
@@ -84,10 +84,6 @@ class ThreadControllerTest extends TestCase
         Storage::disk('local')->assertExists('public/images/test.png');
 
 
-        // post fail (validation error)
-        $authUser->post('/', [
-            'message' => 'post test'
-        ])->assertStatus(302);
         // reply post success
         $authUser->post('/', [
             'thread_id' => 1,
@@ -98,7 +94,7 @@ class ThreadControllerTest extends TestCase
         $authUser->post('/', [
             'thread_id' => 1,
             'message' => ''
-        ])->assertRedirect('/');
+        ])->assertStatus(302);
 
         // reply image post success
         Storage::fake('local');
@@ -162,20 +158,20 @@ class ThreadControllerTest extends TestCase
             'author' => $user->name
         ]);
 
-        // post success（actingAsメソッドでログイン状態にする)
+        // thread updating post success（actingAsメソッドでログイン状態にする)
         $this->actingAs($user)->put('/update', [
             'entry_id' => $thread->entry_id,
             'message' => 'edit post test'
         ])->assertRedirect('/');
 
-        // post fail (validation error)
+        // thread updating post fail (validation error)
         $this->actingAs($user)->get("/edit/{$thread->entry_id}");
         $this->put('/update', [
             'entry_id' => $thread->entry_id,
             'message' => ''
         ])->assertRedirect("/edit/{$thread->entry_id}");
 
-        // image post success
+        // thread updating image post success
         Storage::fake('local');
         $file = UploadedFile::fake()->image('test.png');
         $this->actingAs($user)->put('/update', [
@@ -186,14 +182,14 @@ class ThreadControllerTest extends TestCase
         Storage::disk('local')->assertExists('public/images/test.png');
 
 
-        // reply post success
+        // reply updating post success
         $this->actingAs($user)->put('/update', [
             'id' => $reply->id,
             'thread_id' => $thread->entry_id,
             'message' => 'edit reply test'
         ])->assertRedirect('/');
 
-        // reply post fail (validation error)
+        // // reply updating post fail (validation error)
         $this->actingAs($user)->get("/edit/{$thread->entry_id}/{$reply->id}");
         $this->actingAs($user)->put('/update', [
             'id' => $reply->id,
@@ -201,7 +197,7 @@ class ThreadControllerTest extends TestCase
             'message' => ''
         ])->assertRedirect("/edit/{$thread->entry_id}/{$reply->id}");
 
-        // reply image post success
+        // // reply updating image post success
         Storage::fake('local');
         $file = UploadedFile::fake()->image('test.png');
         $this->actingAs($user)->put('/update', [
