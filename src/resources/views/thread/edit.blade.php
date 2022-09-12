@@ -7,13 +7,16 @@
     <p class="mt-8 p-1 text-red-500 bg-red-300">Validation Error : {{$message}}</p>
     @enderror
     <section class="mt-8 mx-[auto] p-4 border-2 rounded-md">
-        {{-- Replpy用 --}}
-        @if($thread->id)
-        <form action="{{ route('update', ['id' => $thread->id, 'thread_id' => $thread->thread_id]) }}" method="post" enctype="multipart/form-data">
-        {{-- Thread用 --}}
-        @else
-        <form action="{{ route('update', ['entry_id' => $thread->entry_id]) }}" method="post" enctype="multipart/form-data">
-        @endif
+        @php
+            if ($thread->id) {
+                // Reply用
+                $action = ['id' => $thread->id, 'thread_id' => $thread->thread_id];
+            } else {
+                // Thread用
+                $action = ['entry_id' => $thread->entry_id];
+            }
+        @endphp
+        <form action="{{ route('update', $action) }}" method="post" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div>
