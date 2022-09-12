@@ -76,11 +76,11 @@ class ThreadController extends Controller
      * 認証済みユーザー以外のユーザーが投稿したスレッドの編集ページにアクセスしようとした場合、
      * ルートにリダイレクトする
      *
-     * @param $entry_id
-     * @param null $id
+     * @param int      $entry_id
+     * @param int|null $id
      * @return Application|Factory|View|RedirectResponse|Redirector
      */
-    public function edit($entry_id, $id = null)
+    public function edit(int $entry_id, int $id = null): View|Factory|Redirector|RedirectResponse|Application
     {
         // 指定されたidを持つレコードを取得する
         $thread = is_null($id) ? Thread::findOrFail($entry_id) : Reply::findOrFail($id);
