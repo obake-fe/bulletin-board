@@ -64,6 +64,7 @@ class ThreadController extends Controller
 
         // 認証済みユーザーの名前で保存する（ヘルパ関数authから認証済みユーザー名を取得）
         $form['author'] = auth()->user()->name;
+        $form['author_id'] = auth()->user()->id;
 
         unset($form['_token']);
         $thread->fill($form)->save();
@@ -85,7 +86,7 @@ class ThreadController extends Controller
         // 指定されたidを持つレコードを取得する
         $thread = is_null($id) ? Thread::findOrFail($entry_id) : Reply::findOrFail($id);
 
-        if ($thread['author'] !== auth()->user()->name) {
+        if ($thread['author_id'] !== auth()->user()->id) {
             return redirect('/');
         }
 
