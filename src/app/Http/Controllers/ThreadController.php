@@ -50,24 +50,26 @@ class ThreadController extends Controller
      */
     public function store(ThreadRequest $request): Redirector|RedirectResponse|Application
     {
+        // POSTされたデータ
         $form = $request->all();
-
-        // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
-        $thread = array_key_exists('thread_id', $form) ? new Reply() : new Thread();
-
+        // 保存用にこのあと整形するデータ
+        $forSavingData = $form;
+        // 画像データ
         $image = $request->file('image');
 
         if (!is_null($image)) {
             $file_name = $image->getClientOriginalName();
-            $form['image'] = $image->storeAs('public/images', $file_name);
+            $forSavingData['image'] = $image->storeAs('public/images', $file_name);
         }
 
-        // 認証済みユーザーの名前で保存する（ヘルパ関数authから認証済みユーザー名を取得）
-        $form['author'] = auth()->user()->name;
-        $form['author_id'] = auth()->user()->id;
+        // 認証済みユーザーの名前とidを使用する（ヘルパ関数authから認証済みユーザー名を取得）
+        $forSavingData['author'] = auth()->user()->name;
+        $forSavingData['author_id'] = auth()->user()->id;
+        unset($forSavingData['_token']);
 
-        unset($form['_token']);
-        $thread->fill($form)->save();
+        // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
+        $model = array_key_exists('thread_id', $form) ? new Reply() : new Thread();
+        $model->fill($forSavingData)->save();
         return redirect('/');
     }
 
@@ -101,19 +103,23 @@ class ThreadController extends Controller
      */
     public function update(ThreadRequest $request): Redirector|RedirectResponse|Application
     {
+        // POSTされたデータ
         $form = $request->all();
+        // 保存用にこのあと整形するデータ
+        $forSavingData = $form;
+        // 画像データ
         $image = $request->file('image');
 
         if (!is_null($image)) {
             $file_name = $image->getClientOriginalName();
-            $form['image'] = $image->storeAs('public/images', $file_name);
+            $forSavingData['image'] = $image->storeAs('public/images', $file_name);
         }
 
-        unset($form['_token']);
+        unset($forSavingData['_token']);
 
         // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
-        $thread = array_key_exists('thread_id', $form) ? Reply::find($form['id']) : Thread::find($form['entry_id']);
-        $thread->fill($form)->save();
+        $model = array_key_exists('thread_id', $form) ? Reply::find($form['id']) : Thread::find($form['entry_id']);
+        $model->fill($forSavingData)->save();
         return redirect('/');
     }
 }
