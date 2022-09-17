@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +21,11 @@ class ThreadFactory extends Factory
     public function definition()
     {
         return [
-          'author' => $this->faker->name,
-          'message' => $this->faker->sentence
+            'author' => $this->faker->name,
+            'author_id' => function () {
+                return User::factory()->create()->id;
+            },
+            'message' => $this->faker->sentence
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Reply;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,6 +26,9 @@ class ReplyFactory extends Factory
                 return Thread::factory()->create()->entry_id;
             },
             'author' => $this->faker->name,
+            'author_id' => function () {
+                return User::factory()->create()->id;
+            },
             'message' => $this->faker->sentence
         ];
     }

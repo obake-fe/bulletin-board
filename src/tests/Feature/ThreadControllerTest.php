@@ -119,12 +119,14 @@ class ThreadControllerTest extends TestCase
         $thread_id = 1;
         $thread = Thread::factory()->create([
             'entry_id' => $thread_id,
-            'author' => $user1->name
+            'author' => $user1->name,
+            'author_id' => $user1->id,
         ]);
         $reply = Reply::factory()->create([
             'id' => 10,
             'thread_id' => $thread->entry_id,
-            'author' => $user1->name
+            'author' => $user1->name,
+            'author_id' => $user1->id
         ]);
 
         // Edit thread
