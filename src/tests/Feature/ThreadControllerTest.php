@@ -189,7 +189,7 @@ class ThreadControllerTest extends TestCase
             'message' => 'edit reply test'
         ])->assertRedirect('/');
 
-        // // reply updating post fail (validation error)
+        // reply updating post fail (validation error)
         $this->actingAs($user)->get("/edit/{$thread->entry_id}/{$reply->id}");
         $this->actingAs($user)->put('/update', [
             'id' => $reply->id,
@@ -197,7 +197,7 @@ class ThreadControllerTest extends TestCase
             'message' => ''
         ])->assertRedirect("/edit/{$thread->entry_id}/{$reply->id}");
 
-        // // reply updating image post success
+        // reply updating image post success
         Storage::fake('local');
         $file = UploadedFile::fake()->image('test.png');
         $this->actingAs($user)->put('/update', [
