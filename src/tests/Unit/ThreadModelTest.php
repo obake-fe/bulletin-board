@@ -26,6 +26,7 @@ class ThreadModelTest extends TestCase
         // ダミーデータを用意
         $data = [
             'author' => 'test',
+            'author_id' => '1',
             'message' => 'test message'
         ];
 
@@ -73,6 +74,7 @@ class ThreadModelTest extends TestCase
         // 検索ワードがある場合
         Thread::factory()->create([
             'author' => 'test',
+            'author_id' => '1',
             'message' => 'hoge'
         ]);
 
@@ -96,6 +98,7 @@ class ThreadModelTest extends TestCase
         // 検索ワードがある場合
         Thread::factory()->create([
             'author' => 'hoge',
+            'author_id' => '1',
             'message' => 'test'
         ]);
 

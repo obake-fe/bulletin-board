@@ -26,6 +26,7 @@ class ReplyModelTest extends TestCase
         $data = [
             'thread_id' => 1,
             'author' => 'test',
+            'author_id' => '1',
             'message' => 'test message'
         ];
 

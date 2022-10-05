@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ThreadRequest;
+use App\Models\Reply;
 use App\Models\Thread;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -49,20 +50,76 @@ class ThreadController extends Controller
      */
     public function store(ThreadRequest $request): Redirector|RedirectResponse|Application
     {
-        $thread = new Thread();
+        // POSTされたデータ
         $form = $request->all();
+        // 保存用にこのあと整形するデータ
+        $forSavingData = $form;
+        // 画像データ
         $image = $request->file('image');
 
         if (!is_null($image)) {
             $file_name = $image->getClientOriginalName();
-            $form['image'] = $image->storeAs('public/images', $file_name);
+            $forSavingData['image'] = $image->storeAs('public/images', $file_name);
         }
 
-        // 認証済みユーザーの名前で保存する（ヘルパ関数authから認証済みユーザー名を取得）
-        $form['author'] = auth()->user()->name;
+        // 認証済みユーザーの名前とidを使用する（ヘルパ関数authから認証済みユーザー名を取得）
+        $forSavingData['author'] = auth()->user()->name;
+        $forSavingData['author_id'] = auth()->user()->id;
+        unset($forSavingData['_token']);
 
-        unset($form['_token']);
-        $thread->fill($form)->save();
+        // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
+        $model = array_key_exists('thread_id', $form) ? new Reply() : new Thread();
+        $model->fill($forSavingData)->save();
+        return redirect('/');
+    }
+
+    /**
+     * 編集画面に遷移させる
+     *
+     * 認証済みユーザー以外のユーザーが投稿したスレッドの編集ページにアクセスしようとした場合、
+     * ルートにリダイレクトする
+     *
+     * @param int      $entry_id
+     * @param int|null $id
+     * @return Application|Factory|View|RedirectResponse|Redirector
+     */
+    public function edit(int $entry_id, int $id = null): View|Factory|Redirector|RedirectResponse|Application
+    {
+        // 指定されたidを持つレコードを取得する
+        $thread = is_null($id) ? Thread::findOrFail($entry_id) : Reply::findOrFail($id);
+
+        if ($thread['author_id'] !== auth()->user()->id) {
+            return redirect('/');
+        }
+
+        return view('thread.edit', ['thread' => $thread]);
+    }
+
+    /**
+     * 編集ページのPOSTボタン押下時の処理
+     *
+     * @param ThreadRequest $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function update(ThreadRequest $request): Redirector|RedirectResponse|Application
+    {
+        // POSTされたデータ
+        $form = $request->all();
+        // 保存用にこのあと整形するデータ
+        $forSavingData = $form;
+        // 画像データ
+        $image = $request->file('image');
+
+        if (!is_null($image)) {
+            $file_name = $image->getClientOriginalName();
+            $forSavingData['image'] = $image->storeAs('public/images', $file_name);
+        }
+
+        unset($forSavingData['_token']);
+
+        // thread_id（threadに紐づくid）の存在有無で、ThreadとReplyのどちらのModelと紐付けるか決める
+        $model = array_key_exists('thread_id', $form) ? Reply::find($form['id']) : Thread::find($form['entry_id']);
+        $model->fill($forSavingData)->save();
         return redirect('/');
     }
 }
